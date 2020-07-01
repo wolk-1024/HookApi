@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HookApi", "HookApi.vcxproj", "{128E3576-1BFA-4E8C-B1BF-4DF42232457C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Debug|x64.ActiveCfg = Debug|x64
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Debug|x64.Build.0 = Debug|x64
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Debug|x86.ActiveCfg = Debug|Win32
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Debug|x86.Build.0 = Debug|Win32
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Release|x64.ActiveCfg = Release|x64
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Release|x64.Build.0 = Release|x64
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Release|x86.ActiveCfg = Release|Win32
+		{128E3576-1BFA-4E8C-B1BF-4DF42232457C}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {176A873C-F3AA-4537-8896-9B077B3282BB}
+	EndGlobalSection
+EndGlobal
