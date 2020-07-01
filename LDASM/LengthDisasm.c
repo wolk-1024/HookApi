@@ -1,4 +1,4 @@
-/*
+п»ї/*
 *  Copyright (c) 2019-2020 Wolk-1024 <wolk1024@gmail.com>
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -573,7 +573,7 @@ static uint8_t FlagsTableEx[256] =
 };
 
 /*
-                              Структура инструкции:
+                              РЎС‚СЂСѓРєС‚СѓСЂР° РёРЅСЃС‚СЂСѓРєС†РёРё:
 
          GRP 1, 2, 3, 4           B, X, R, W      7.....0  7.....0  7.....0
    +------------------------+--------------------+-------------------------+
@@ -655,7 +655,7 @@ uint8_t LengthDisasm(void *Address, uint8_t Is64Bit, PLengthDisasm Data)
 	Data->OpcodeSize = 1;
 	Data->OpcodeOffset = Data->Length;
 
-	if (*Ip == 0x0F) // Двухбайтный опкод
+	if (*Ip == 0x0F) // Р”РІСѓС…Р±Р°Р№С‚РЅС‹Р№ РѕРїРєРѕРґ
 	{
 		Data->OpcodeSize++;
 
@@ -666,10 +666,10 @@ uint8_t LengthDisasm(void *Address, uint8_t Is64Bit, PLengthDisasm Data)
 			Data->Flags |= F_INVALID;
 			return 0;
 		}
-		if (OpFlag & OP_EXTENDED) // Трёхбайтовый
+		if (OpFlag & OP_EXTENDED) // РўСЂС‘С…Р±Р°Р№С‚РѕРІС‹Р№
 			Data->OpcodeSize++;
 	}
-	else // Однобайтовый
+	else // РћРґРЅРѕР±Р°Р№С‚РѕРІС‹Р№
 	{
 		OpFlag = FlagsTable[*Ip];
 
@@ -687,7 +687,7 @@ uint8_t LengthDisasm(void *Address, uint8_t Is64Bit, PLengthDisasm Data)
 		}
 	}
 
-	__movsb(&Data->Opcode, Ip, Data->OpcodeSize); //  Копируем опкод
+	__movsb(&Data->Opcode, Ip, Data->OpcodeSize); //  РљРѕРїРёСЂСѓРµРј РѕРїРєРѕРґ
 
 	Data->Length += Data->OpcodeSize;
 	Ip += Data->OpcodeSize;
@@ -842,7 +842,7 @@ uint32_t GetSizeOfProc(void *Address, uint8_t Is64Bit)
 	{
 		Result += Size;
 
-		if ((Data.Opcode[0] == 0xC3) || (Data.Opcode[0] == 0xC2)) // ret или retn
+		if ((Data.Opcode[0] == 0xC3) || (Data.Opcode[0] == 0xC2)) // ret РёР»Рё retn
 			break;
 
 		Offset += Size;

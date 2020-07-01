@@ -1,4 +1,4 @@
-/*
+п»ї/*
 *  Copyright (c) 2019-2020 Wolk-1024 <wolk1024@gmail.com>
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -52,9 +52,9 @@
 #define F_PREFIX66          0x00001000
 #define F_PREFIX67          0x00002000
 
-#define MAX_PREFIXES 4          // Максимальное число префиксов на одну инструкцию.
-#define MAX_OPCODE_SIZE 3       // Максимальный размер опкода инструкции.
-#define MAX_INSTRUCTION_SIZE 15 // Максимальный размер инструкции.
+#define MAX_PREFIXES 4          // РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ РїСЂРµС„РёРєСЃРѕРІ РЅР° РѕРґРЅСѓ РёРЅСЃС‚СЂСѓРєС†РёСЋ.
+#define MAX_OPCODE_SIZE 3       // РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РѕРїРєРѕРґР° РёРЅСЃС‚СЂСѓРєС†РёРё.
+#define MAX_INSTRUCTION_SIZE 15 // РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РёРЅСЃС‚СЂСѓРєС†РёРё.
 
 typedef enum TPrefixes
 {

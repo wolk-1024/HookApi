@@ -1,4 +1,4 @@
-/*
+п»ї/*
 *  Copyright (c) 2020 Wolk-1024 <wolk1024@gmail.com>
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -44,7 +44,7 @@
 
 #define MAX_HOOKS_PER_BLOCK 1024
 
-#define MAX_BLOCK_SIZE 0x1000 * 8 // 32кб
+#define MAX_BLOCK_SIZE 0x1000 * 8 // 32РєР±
 
 #define MAX_MEMORY_RANGE TWO_GIGABYTES
 
@@ -74,7 +74,7 @@
 
 #ifdef __cplusplus
 /*
-	Не будет работать с виртуальными методами!
+	РќРµ Р±СѓРґРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ СЃ РІРёСЂС‚СѓР°Р»СЊРЅС‹РјРё РјРµС‚РѕРґР°РјРё!
 */
 auto GetClassMethod = [](auto ClassMethod)
 {
@@ -103,7 +103,7 @@ auto UnhookClassMethod = [](auto ClassMethod)
    HookLog("%s\n(%s)\n%s\n", __FUNCDNAME__, __FUNCTION__, Message); \
 }
 
-#pragma pack(push, 1) // Отрубаем выравнивание структур
+#pragma pack(push, 1) // РћС‚СЂСѓР±Р°РµРј РІС‹СЂР°РІРЅРёРІР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂ
 
 typedef struct TJumpShort
 {
@@ -131,7 +131,7 @@ typedef struct TJumpAbs
 	PVOID Address;
 } TJumpAbs, *PJumpAbs;
 
-#pragma pack(pop) // Включаем обратно.
+#pragma pack(pop) // Р’РєР»СЋС‡Р°РµРј РѕР±СЂР°С‚РЅРѕ.
 
 typedef enum THookStatus
 {
@@ -159,9 +159,9 @@ typedef enum THookType
 
 typedef enum TVEHType
 {
-	HookGuardPage = 1, // Могут быть ошибки.
-	HookPrivInstruction = 2, // Рекомендуется.
-	HookHardwareBreakpoint = 3 // Не более четырёх перехватов.
+	HookGuardPage = 1, // РњРѕРіСѓС‚ Р±С‹С‚СЊ РѕС€РёР±РєРё.
+	HookPrivInstruction = 2, // Р РµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ.
+	HookHardwareBreakpoint = 3 // РќРµ Р±РѕР»РµРµ С‡РµС‚С‹СЂС‘С… РїРµСЂРµС…РІР°С‚РѕРІ.
 } TVEHType;
 
 typedef enum _HBP_SIZE
@@ -170,7 +170,7 @@ typedef enum _HBP_SIZE
 	HBP_WORD = 1,
 	HBP_DWORD = 3,
 #ifdef _WIN64
-	HBP_QWORD = 2 // Нужно ли?
+	HBP_QWORD = 2 // РќСѓР¶РЅРѕ Р»Рё?
 #endif
 } HBP_SIZE;
 
@@ -193,16 +193,16 @@ typedef enum _HBP_TYPE
 HBP_TYPE;
 
 #define HBP_ERROR -1
-#define HBP_NO_INDEX -2 // Нет свободных регистров.
+#define HBP_NO_INDEX -2 // РќРµС‚ СЃРІРѕР±РѕРґРЅС‹С… СЂРµРіРёСЃС‚СЂРѕРІ.
 
-#define CALL_FIRST 1 // Для AddVectoredExceptionHandler
+#define CALL_FIRST 1 // Р”Р»СЏ AddVectoredExceptionHandler
 #define CALL_LAST 0
 #define EFLAGS_TF 0x100
 
 typedef struct THookInfo
 {
-	BYTE BridgeCode[MAX_BRIDGE_SIZE]; // Релоцированный код.
-	BYTE OriginalCode[MAX_HOOK_SIZE]; // Оригинальный.
+	BYTE BridgeCode[MAX_BRIDGE_SIZE]; // Р РµР»РѕС†РёСЂРѕРІР°РЅРЅС‹Р№ РєРѕРґ.
+	BYTE OriginalCode[MAX_HOOK_SIZE]; // РћСЂРёРіРёРЅР°Р»СЊРЅС‹Р№.
 	BYTE BridgeSize;
 	BYTE OriginalSize;
 	PVOID HookAddress;

@@ -1,4 +1,4 @@
-/*
+п»ї/*
 *  Copyright (c) 2020 Wolk-1024 <wolk1024@gmail.com>
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -27,7 +27,7 @@
 
 #include "HookApi.h"
 
-PMemoryBlock g_MemoryFirstBlock = NULL; // Указатель на первый блок в списке.
+PMemoryBlock g_MemoryFirstBlock = NULL; // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ Р±Р»РѕРє РІ СЃРїРёСЃРєРµ.
 
 PVOID g_VectoredHandler = NULL;
 
@@ -131,7 +131,7 @@ static BOOLEAN MemFree(_In_ PVOID Memory, _In_opt_ SIZE_T Size)
 }
 
 /*
-	Функция для удаления произвольного количества байт из памяти.
+	Р¤СѓРЅРєС†РёСЏ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° Р±Р°Р№С‚ РёР· РїР°РјСЏС‚Рё.
 */
 static BOOLEAN MemDelete(_In_ PVOID Address, _In_ SIZE_T Length, _In_ SIZE_T Position, _In_ SIZE_T ToDelete, _Out_ PVOID* OutBuffer)
 {
@@ -140,14 +140,14 @@ static BOOLEAN MemDelete(_In_ PVOID Address, _In_ SIZE_T Length, _In_ SIZE_T Pos
 
 	SIZE_T NewLength = Length - ToDelete;
 
-	if (!NewLength) // Если размер удаляемых данных равняется общему размеру, то удаляем всё.
+	if (!NewLength) // Р•СЃР»Рё СЂР°Р·РјРµСЂ СѓРґР°Р»СЏРµРјС‹С… РґР°РЅРЅС‹С… СЂР°РІРЅСЏРµС‚СЃСЏ РѕР±С‰РµРјСѓ СЂР°Р·РјРµСЂСѓ, С‚Рѕ СѓРґР°Р»СЏРµРј РІСЃС‘.
 	{
 		*OutBuffer = NULL;
 
 		return MemFree(Address, 0);
 	}
 
-	PBYTE NewBuffer = (PBYTE)MemAlloc(NewLength); // Выделяем новую память меньшего размера.
+	PBYTE NewBuffer = (PBYTE)MemAlloc(NewLength); // Р’С‹РґРµР»СЏРµРј РЅРѕРІСѓСЋ РїР°РјСЏС‚СЊ РјРµРЅСЊС€РµРіРѕ СЂР°Р·РјРµСЂР°.
 
 	if (NewBuffer)
 	{
@@ -159,7 +159,7 @@ static BOOLEAN MemDelete(_In_ PVOID Address, _In_ SIZE_T Length, _In_ SIZE_T Pos
 		{
 			if (Count == Position)
 			{
-				CopyAddress += ToDelete; // Пропускаем удаляемую часть.
+				CopyAddress += ToDelete; // РџСЂРѕРїСѓСЃРєР°РµРј СѓРґР°Р»СЏРµРјСѓСЋ С‡Р°СЃС‚СЊ.
 			}
 			else
 			{
@@ -172,31 +172,31 @@ static BOOLEAN MemDelete(_In_ PVOID Address, _In_ SIZE_T Length, _In_ SIZE_T Pos
 		}
 
 		/*
-		memcpy_s(NewBuffer, NewLength, Address, Position); // Сначала копируем данные, расположенные до удаляемой позиции.
+		memcpy_s(NewBuffer, NewLength, Address, Position); // РЎРЅР°С‡Р°Р»Р° РєРѕРїРёСЂСѓРµРј РґР°РЅРЅС‹Рµ, СЂР°СЃРїРѕР»РѕР¶РµРЅРЅС‹Рµ РґРѕ СѓРґР°Р»СЏРµРјРѕР№ РїРѕР·РёС†РёРё.
 
 		NewBuffer += Position;
 
-		Pointer += Position + ToDelete; // Затем пропускаем удаляемую часть.
+		Pointer += Position + ToDelete; // Р—Р°С‚РµРј РїСЂРѕРїСѓСЃРєР°РµРј СѓРґР°Р»СЏРµРјСѓСЋ С‡Р°СЃС‚СЊ.
 
 		SIZE_T RestBytes = Length - (Position + ToDelete);
 
-		memcpy_s(NewBuffer, NewLength, Pointer, RestBytes); // После копируем оставшиеся данные.
+		memcpy_s(NewBuffer, NewLength, Pointer, RestBytes); // РџРѕСЃР»Рµ РєРѕРїРёСЂСѓРµРј РѕСЃС‚Р°РІС€РёРµСЃСЏ РґР°РЅРЅС‹Рµ.
 		*/
 
-		return MemFree(Address, Length); // Освобождаем старую память.
+		return MemFree(Address, Length); // РћСЃРІРѕР±РѕР¶РґР°РµРј СЃС‚Р°СЂСѓСЋ РїР°РјСЏС‚СЊ.
 	}
 	return FALSE;
 }
 
 /*
-	Функция добавления в память произвольного количества байт.
+	Р¤СѓРЅРєС†РёСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ РїР°РјСЏС‚СЊ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° Р±Р°Р№С‚.
 */
 static BOOLEAN MemAdd(_In_ PVOID Destination, _In_ PVOID Source, _In_ SIZE_T DestLength, _In_ SIZE_T Position, _In_ SIZE_T SourceLength, _Out_ PVOID* OutBuffer)
 {
 	if (!Destination || !Source || !OutBuffer || Position > DestLength)
 		return FALSE;
 
-	SIZE_T NewLength = DestLength + SourceLength; // Новый размер.
+	SIZE_T NewLength = DestLength + SourceLength; // РќРѕРІС‹Р№ СЂР°Р·РјРµСЂ.
 
 	if (NewLength > DestLength)
 	{
@@ -253,7 +253,7 @@ static BOOLEAN MemDeleteFromArray(_Inout_ PVOID *Array, _In_ SIZE_T Count, _In_ 
 	if (!Array || Position > Count)
 		return FALSE;
 
-	SIZE_T ArrayLength = (Count + 1) * ElementSize; // Размер массива.
+	SIZE_T ArrayLength = (Count + 1) * ElementSize; // Р Р°Р·РјРµСЂ РјР°СЃСЃРёРІР°.
 
 	return MemDelete(*Array, ArrayLength, Position * ElementSize, ElementSize, Array);
 }
@@ -484,7 +484,7 @@ static PVOID GetModuleHandleByAddress(_In_ PVOID Address, _Inout_opt_ LPWSTR Bas
 	if (GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (PWCHAR)Address, &hModule))
 	{
 		if (BaseDllName)
-			GetModuleBaseNameW(GetCurrentProcess(), hModule, BaseDllName, _MAX_FNAME); // Нужно ли?
+			GetModuleBaseNameW(GetCurrentProcess(), hModule, BaseDllName, _MAX_FNAME); // РќСѓР¶РЅРѕ Р»Рё?
 
 		return hModule;
 	}
@@ -689,7 +689,7 @@ static BOOLEAN SuspendResumeThreadsEx(_In_ BOOLEAN Suspend, _In_ PProcessThreads
 
 	for (; Count < Threads->Count; Count++)
 	{
-		if (Threads->ThreadsID[Count] == GetCurrentThreadId()) // Пропускаем свой первый поток.
+		if (Threads->ThreadsID[Count] == GetCurrentThreadId()) // РџСЂРѕРїСѓСЃРєР°РµРј СЃРІРѕР№ РїРµСЂРІС‹Р№ РїРѕС‚РѕРє.
 			continue;
 
 		HANDLE ThreadHandle = OpenThread(THREAD_SUSPEND_RESUME, FALSE, Threads->ThreadsID[Count]);
@@ -728,7 +728,7 @@ static BOOLEAN SuspendResumeThreads(_In_ BOOLEAN Suspend)
 }
 
 /*
-    Fixme: Проверить работоспособность.
+    Fixme: РџСЂРѕРІРµСЂРёС‚СЊ СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚СЊ.
 */
 static BOOLEAN FixupThreadContextsEx(_In_ PHookInfo HookInfo, _In_ PProcessThreads Threads)
 {
@@ -749,7 +749,7 @@ static BOOLEAN FixupThreadContextsEx(_In_ PHookInfo HookInfo, _In_ PProcessThrea
 
 		CONTEXT Context = { 0 };
 
-		Context.ContextFlags = CONTEXT_CONTROL; // Флаг для получения EIP/RIP
+		Context.ContextFlags = CONTEXT_CONTROL; // Р¤Р»Р°Рі РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ EIP/RIP
 
 		if (!GetThreadContext(ThreadHandle, &Context))
 		{
@@ -763,11 +763,11 @@ static BOOLEAN FixupThreadContextsEx(_In_ PHookInfo HookInfo, _In_ PProcessThrea
 		SIZE_T XipAddress = Context.Eip;
 #endif
 		if ((XipAddress >= (SIZE_T)HookInfo->OriginalAddress) && 
-			(XipAddress < (SIZE_T)HookInfo->OriginalAddress + HookInfo->OriginalSize)) // Если указатель потока находится в области перехватываемого кода.
+			(XipAddress < (SIZE_T)HookInfo->OriginalAddress + HookInfo->OriginalSize)) // Р•СЃР»Рё СѓРєР°Р·Р°С‚РµР»СЊ РїРѕС‚РѕРєР° РЅР°С…РѕРґРёС‚СЃСЏ РІ РѕР±Р»Р°СЃС‚Рё РїРµСЂРµС…РІР°С‚С‹РІР°РµРјРѕРіРѕ РєРѕРґР°.
 		{
-			XipAddress = (SIZE_T)HookInfo->BridgeCode + (XipAddress - (SIZE_T)HookInfo->OriginalAddress); // Передаём управление в перехватчик.
+			XipAddress = (SIZE_T)HookInfo->BridgeCode + (XipAddress - (SIZE_T)HookInfo->OriginalAddress); // РџРµСЂРµРґР°С‘Рј СѓРїСЂР°РІР»РµРЅРёРµ РІ РїРµСЂРµС…РІР°С‚С‡РёРє.
 
-			XipAddress += HookInfo->BridgeSize - HookInfo->OriginalSize; // Нужна дельта, т.к релоцированный код может быть больше, чем оригинальный.
+			XipAddress += HookInfo->BridgeSize - HookInfo->OriginalSize; // РќСѓР¶РЅР° РґРµР»СЊС‚Р°, С‚.Рє СЂРµР»РѕС†РёСЂРѕРІР°РЅРЅС‹Р№ РєРѕРґ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ, С‡РµРј РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№.
 #ifdef _M_X64
 			Context.Rip = XipAddress;
 #elif _M_IX86
@@ -958,18 +958,18 @@ static PVOID AllocMemory(_In_ PVOID Origin, SIZE_T RangeSize, _In_ SIZE_T BlockS
 
 	SIZE_T Address = (SIZE_T)SystemInfo.lpMinimumApplicationAddress;
 
-	while (Address < (SIZE_T)SystemInfo.lpMaximumApplicationAddress) // Перебираем всю доступную приложению память.
+	while (Address < (SIZE_T)SystemInfo.lpMaximumApplicationAddress) // РџРµСЂРµР±РёСЂР°РµРј РІСЃСЋ РґРѕСЃС‚СѓРїРЅСѓСЋ РїСЂРёР»РѕР¶РµРЅРёСЋ РїР°РјСЏС‚СЊ.
 	{
-		Address = AlignUp(Address, SystemInfo.dwAllocationGranularity); // Выравниваем адрес.
+		Address = AlignUp(Address, SystemInfo.dwAllocationGranularity); // Р’С‹СЂР°РІРЅРёРІР°РµРј Р°РґСЂРµСЃ.
 
 		if (!VirtualQuery((PVOID)Address, &MemoryInformation, sizeof(MemoryInformation)))
 			break;
 
-		if (IsValidDelta((SIZE_T)Origin, Address, RangeSize) && (MemoryInformation.State == MEM_FREE) && (MemoryInformation.RegionSize >= BlockSize)) // Ищем свободную область памяти в пределах +-2гб
+		if (IsValidDelta((SIZE_T)Origin, Address, RangeSize) && (MemoryInformation.State == MEM_FREE) && (MemoryInformation.RegionSize >= BlockSize)) // РС‰РµРј СЃРІРѕР±РѕРґРЅСѓСЋ РѕР±Р»Р°СЃС‚СЊ РїР°РјСЏС‚Рё РІ РїСЂРµРґРµР»Р°С… +-2РіР±
 		{
 			for (; Address < ((SIZE_T)MemoryInformation.BaseAddress + MemoryInformation.RegionSize); Address += SystemInfo.dwAllocationGranularity)
 			{
-				PVOID Result = VirtualAlloc((PVOID)Address, BlockSize, MEM_COMMIT | MEM_RESERVE, Protect); // Может вернуть ERROR_INVALID_ADDRESS
+				PVOID Result = VirtualAlloc((PVOID)Address, BlockSize, MEM_COMMIT | MEM_RESERVE, Protect); // РњРѕР¶РµС‚ РІРµСЂРЅСѓС‚СЊ ERROR_INVALID_ADDRESS
 
 				if (Result)
 				{
@@ -1003,13 +1003,13 @@ static PMemoryBlock FindBlockInRange(_In_ PVOID Origin, _In_ SIZE_T RangeSize, _
 		BOOLEAN InRange = FALSE;
 
 		if (Reverse)
-			InRange = (RangeSize > ((SIZE_T)Origin - (SIZE_T)Block)); // -2гб
+			InRange = (RangeSize > ((SIZE_T)Origin - (SIZE_T)Block)); // -2РіР±
 		else
-			InRange = (RangeSize > ((SIZE_T)Block - (SIZE_T)Origin)); // +2гб
+			InRange = (RangeSize > ((SIZE_T)Block - (SIZE_T)Origin)); // +2РіР±
 
 		if (InRange)
 #endif
-			if (Block->UsedBuffers < Block->MaxBuffers && (Block->BlockSize >= BlockSize)) // Ищем блок в котором имеется хоть один свободный буфер.
+			if (Block->UsedBuffers < Block->MaxBuffers && (Block->BlockSize >= BlockSize)) // РС‰РµРј Р±Р»РѕРє РІ РєРѕС‚РѕСЂРѕРј РёРјРµРµС‚СЃСЏ С…РѕС‚СЊ РѕРґРёРЅ СЃРІРѕР±РѕРґРЅС‹Р№ Р±СѓС„РµСЂ.
 				return Block;
 	}
 	return FALSE;
@@ -1026,9 +1026,9 @@ static PMemoryBlock GetFreeNextBlock(_In_ PVOID Origin, _In_ SIZE_T RangeSize, _
 	for (PMemoryBlock Block = g_MemoryFirstBlock; Block != NULL; Block = Block->Next)
 	{
 #ifdef _M_X64
-		if (RangeSize > ((SIZE_T)Block - (SIZE_T)Origin)) // +2гб
+		if (RangeSize > ((SIZE_T)Block - (SIZE_T)Origin)) // +2РіР±
 #endif
-			if (Block->UsedBuffers < Block->MaxBuffers && (Block->BlockSize >= BlockSize)) // Ищем блок в котором имеется хоть один свободный буфер.
+			if (Block->UsedBuffers < Block->MaxBuffers && (Block->BlockSize >= BlockSize)) // РС‰РµРј Р±Р»РѕРє РІ РєРѕС‚РѕСЂРѕРј РёРјРµРµС‚СЃСЏ С…РѕС‚СЊ РѕРґРёРЅ СЃРІРѕР±РѕРґРЅС‹Р№ Р±СѓС„РµСЂ.
 				return Block;
 	}
 	return NULL;
@@ -1044,7 +1044,7 @@ static PMemoryBlock GetFreePrevBlock(_In_ PVOID Origin, _In_ SIZE_T RangeSize, _
 	for (PMemoryBlock Block = g_MemoryFirstBlock; Block != NULL; Block = Block->Next)
 	{
 #ifdef _M_X64
-		if (RangeSize > ((SIZE_T)Origin - (SIZE_T)Block)) // -2гб
+		if (RangeSize > ((SIZE_T)Origin - (SIZE_T)Block)) // -2РіР±
 #endif
 			if (Block->UsedBuffers < Block->MaxBuffers && (Block->BlockSize >= BlockSize))
 				return Block;
@@ -1076,7 +1076,7 @@ static PMemoryBlock RegisterBlock(_In_ PMemoryBlock NewBlock, _In_ SIZE_T BlockS
 
 	SIZE_T Offset = sizeof(TMemoryBlock);
 
-	SIZE_T MaxBuffers = (BlockSize - Offset) / BufferSize; // Максимальное количество буферов на один блок памяти.
+	SIZE_T MaxBuffers = (BlockSize - Offset) / BufferSize; // РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р±СѓС„РµСЂРѕРІ РЅР° РѕРґРёРЅ Р±Р»РѕРє РїР°РјСЏС‚Рё.
 
 	if (MaxBuffers)
 	{
@@ -1088,13 +1088,13 @@ static PMemoryBlock RegisterBlock(_In_ PMemoryBlock NewBlock, _In_ SIZE_T BlockS
 
 		if (!g_MemoryFirstBlock)
 		{
-			g_MemoryFirstBlock = NewBlock; // Первый блок.
+			g_MemoryFirstBlock = NewBlock; // РџРµСЂРІС‹Р№ Р±Р»РѕРє.
 		}
 		else
 		{
 			PMemoryBlock LastBlock = g_MemoryFirstBlock;
 
-			while (LastBlock->Next) // Ищем последний блок в списке.
+			while (LastBlock->Next) // РС‰РµРј РїРѕСЃР»РµРґРЅРёР№ Р±Р»РѕРє РІ СЃРїРёСЃРєРµ.
 			{
 				LastBlock = LastBlock->Next;
 			}
@@ -1185,12 +1185,12 @@ static BOOLEAN FreeBlock(_In_ PMemoryBlock Block)
 	{
 		PMemoryBlock NextBlock = Block->Next, LastBlock = Block->Prev;
 
-		if (g_MemoryFirstBlock == Block) // Если удаляем первый блок.
+		if (g_MemoryFirstBlock == Block) // Р•СЃР»Рё СѓРґР°Р»СЏРµРј РїРµСЂРІС‹Р№ Р±Р»РѕРє.
 			g_MemoryFirstBlock = NextBlock;
 		else
 			LastBlock->Next = NextBlock;
 
-		if (NextBlock) // Если последний.
+		if (NextBlock) // Р•СЃР»Рё РїРѕСЃР»РµРґРЅРёР№.
 			NextBlock->Prev = LastBlock;
 
 		return FreeMemory(Block);
@@ -1297,8 +1297,8 @@ static BOOLEAN FreeBuffer(_In_ PMemoryBuffer Buffer)
 
 		RtlSecureZeroMemory(&Buffer->Data, sizeof(Buffer->Data));
 
-		if (!Block->UsedBuffers) // Если все буферы свободны
-			return FreeBlock(Block); // то удаляем ненужный блок.
+		if (!Block->UsedBuffers) // Р•СЃР»Рё РІСЃРµ Р±СѓС„РµСЂС‹ СЃРІРѕР±РѕРґРЅС‹
+			return FreeBlock(Block); // С‚Рѕ СѓРґР°Р»СЏРµРј РЅРµРЅСѓР¶РЅС‹Р№ Р±Р»РѕРє.
 	
 		return TRUE;
 	}
@@ -1384,7 +1384,7 @@ static BOOLEAN WriteJump(_In_ PVOID From, _In_ PVOID To, _In_ WORD Opcode)
 		}
 		else if (Opcode == JUMP_REL)
 		{
-			if (IsValidDelta((SIZE_T)From, (SIZE_T)To, TWO_GIGABYTES)) // Не более +-2гб.
+			if (IsValidDelta((SIZE_T)From, (SIZE_T)To, TWO_GIGABYTES)) // РќРµ Р±РѕР»РµРµ +-2РіР±.
 			{
 				((PJumpRel)From)->Opcode = JUMP_REL;
 				((PJumpRel)From)->Address = (DWORD)GetJmpRelAddress(From, To, sizeof(TJumpRel));
@@ -1394,7 +1394,7 @@ static BOOLEAN WriteJump(_In_ PVOID From, _In_ PVOID To, _In_ WORD Opcode)
 		}
 		else if (Opcode == JUMP_SHORT)
 		{
-			if (IsValidDelta((SIZE_T)From, (SIZE_T)To, MAXBYTE)) // Не более +-255 байт.
+			if (IsValidDelta((SIZE_T)From, (SIZE_T)To, MAXBYTE)) // РќРµ Р±РѕР»РµРµ +-255 Р±Р°Р№С‚.
 			{
 				((PJumpShort)From)->Opcode = JUMP_SHORT;
 				((PJumpShort)From)->Address = (BYTE)GetJmpRelAddress(From, To, sizeof(TJumpShort));
@@ -1677,21 +1677,21 @@ static uint8_t ConvertInstruction(_In_ PVOID Address, _In_ DWORD NewSize, _Inout
 	if (!Address || !Data)
 		return 0;
 
-	if ((Data->Flags & F_RELATIVE) && (Data->Flags & F_IMM) && (Data->ImmediateDataSize <= 2)) // Обрабатываем только короткие прыжки.
+	if ((Data->Flags & F_RELATIVE) && (Data->Flags & F_IMM) && (Data->ImmediateDataSize <= 2)) // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј С‚РѕР»СЊРєРѕ РєРѕСЂРѕС‚РєРёРµ РїСЂС‹Р¶РєРё.
 	{
-		if (((Data->Opcode[0] == 0x0F) && (Data->Opcode[1] & 0xF0) == 0x80) || (Data->Opcode[0] & 0xF0) == 0x70) // Условный прыжок. jcc rel8\16
+		if (((Data->Opcode[0] == 0x0F) && (Data->Opcode[1] & 0xF0) == 0x80) || (Data->Opcode[0] & 0xF0) == 0x70) // РЈСЃР»РѕРІРЅС‹Р№ РїСЂС‹Р¶РѕРє. jcc rel8\16
 		{
 			uint8_t Condition = (Data->Opcode[0] != 0x0F ? Data->Opcode[0] : Data->Opcode[1]) & 0x0F;
 
 			Data->Opcode[0] = 0x0F; // jcc rel32
-			Data->Opcode[1] = 0x80 | Condition; // Условие.
+			Data->Opcode[1] = 0x80 | Condition; // РЈСЃР»РѕРІРёРµ.
 
 			Data->OpcodeSize = 2;
 			Data->ImmediateDataSize = 4;
 			Data->ImmediateDataOffset = 2;
 			Data->Length = sizeof(TJccRel);
 		}
-		else if (Data->Opcode[0] == 0xEB) // Безусловный короткий прыжок. jmp rel8
+		else if (Data->Opcode[0] == 0xEB) // Р‘РµР·СѓСЃР»РѕРІРЅС‹Р№ РєРѕСЂРѕС‚РєРёР№ РїСЂС‹Р¶РѕРє. jmp rel8
 		{
 			Data->Opcode[0] = 0xE9;
 
@@ -1703,7 +1703,7 @@ static uint8_t ConvertInstruction(_In_ PVOID Address, _In_ DWORD NewSize, _Inout
 			SSIZE_T Relative = ImmediateData(Data) + Data->Length;
 
 			if (Relative > 0) 
-				return 0; // Не поддерживаем прыжок во внутрь функции.
+				return 0; // РќРµ РїРѕРґРґРµСЂР¶РёРІР°РµРј РїСЂС‹Р¶РѕРє РІРѕ РІРЅСѓС‚СЂСЊ С„СѓРЅРєС†РёРё.
 
 			SSIZE_T RestSize = MIN_HOOK_SIZE;
 
@@ -1793,11 +1793,11 @@ static THookStatus CopyCodeEx(_In_ PVOID Source, _Inout_ PVOID Destination, _In_
 		else
 			NewSize += OldLength;
 
-		LengthAssemble(Buffer, &Data); // Собираем вновь инструкцию и копируем её в буфер.
+		LengthAssemble(Buffer, &Data); // РЎРѕР±РёСЂР°РµРј РІРЅРѕРІСЊ РёРЅСЃС‚СЂСѓРєС†РёСЋ Рё РєРѕРїРёСЂСѓРµРј РµС‘ РІ Р±СѓС„РµСЂ.
 
-		CodeAddress += OldLength; // Адрес следующей инструкции.
-		CodeSize += OldLength; // Размер оригинального кода.
-		Buffer += ConvSize; // Указатель на переходник.
+		CodeAddress += OldLength; // РђРґСЂРµСЃ СЃР»РµРґСѓСЋС‰РµР№ РёРЅСЃС‚СЂСѓРєС†РёРё.
+		CodeSize += OldLength; // Р Р°Р·РјРµСЂ РѕСЂРёРіРёРЅР°Р»СЊРЅРѕРіРѕ РєРѕРґР°.
+		Buffer += ConvSize; // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРµС…РѕРґРЅРёРє.
 	}
 	if (ConvertedSize)
 		*ConvertedSize = NewSize;
@@ -1931,9 +1931,9 @@ static THookStatus CreateHookBridge(_In_ PVOID Address, _In_ PVOID NewAddress, _
 		}
 		else if (Status == HookStatusSuccess)
 		{
-			memcpy_s(HookInfo->OriginalCode, _countof(HookInfo->OriginalCode), HookInfo->OriginalAddress, HookInfo->OriginalSize); // Сохраняем оригинальный код.
+			memcpy_s(HookInfo->OriginalCode, _countof(HookInfo->OriginalCode), HookInfo->OriginalAddress, HookInfo->OriginalSize); // РЎРѕС…СЂР°РЅСЏРµРј РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ РєРѕРґ.
 
-			WriteJump((PBYTE)HookInfo->BridgeCode + HookInfo->BridgeSize, (PBYTE)HookInfo->OriginalAddress + HookInfo->OriginalSize, JUMP_REL); // Пишем прыжок в оригинальный код.
+			WriteJump((PBYTE)HookInfo->BridgeCode + HookInfo->BridgeSize, (PBYTE)HookInfo->OriginalAddress + HookInfo->OriginalSize, JUMP_REL); // РџРёС€РµРј РїСЂС‹Р¶РѕРє РІ РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ РєРѕРґ.
 
 #ifdef _DEBUG
 			HookInfo->Jmp = (PJumpRel)((PBYTE)HookInfo->BridgeCode + HookInfo->BridgeSize);
@@ -1981,19 +1981,19 @@ THookStatus HookSpliceEx(_In_ PVOID Address, _In_ PVOID NewAddress, _Out_ PHookI
 		{
 			TProcessThreads Threads = { 0 };
 
-			if (!EnumProcessThreads(GetCurrentProcessId(), &Threads)) // Получаем все потоки процесса
+			if (!EnumProcessThreads(GetCurrentProcessId(), &Threads)) // РџРѕР»СѓС‡Р°РµРј РІСЃРµ РїРѕС‚РѕРєРё РїСЂРѕС†РµСЃСЃР°
 			{
 				Status = HookStatusThreadsError;
 			}
 			else if (Status == HookStatusSuccess)
 			{
-				if (!SuspendResumeThreadsEx(TRUE, &Threads)) // Замараживаем их
+				if (!SuspendResumeThreadsEx(TRUE, &Threads)) // Р—Р°РјР°СЂР°Р¶РёРІР°РµРј РёС…
 				{
 					Status = HookStatusThreadsError;
 				}
 				else if (Status == HookStatusSuccess)
 				{
-					if (!FixupThreadContextsEx(HookInfo, &Threads)) // Правим адрес выполнения, если нужно.
+					if (!FixupThreadContextsEx(HookInfo, &Threads)) // РџСЂР°РІРёРј Р°РґСЂРµСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ, РµСЃР»Рё РЅСѓР¶РЅРѕ.
 					{
 						Status = HookStatusFixupThreadsError;
 					}
@@ -2001,7 +2001,7 @@ THookStatus HookSpliceEx(_In_ PVOID Address, _In_ PVOID NewAddress, _Out_ PHookI
 					{
 						memset(HookInfo->OriginalAddress, NOP, HookInfo->OriginalSize);
 #ifdef _M_X64
-						WriteJump(HookInfo->OriginalAddress, HookInfo->HookAddress, JUMP_ABS); // Прыжок в перехватчик.
+						WriteJump(HookInfo->OriginalAddress, HookInfo->HookAddress, JUMP_ABS); // РџСЂС‹Р¶РѕРє РІ РїРµСЂРµС…РІР°С‚С‡РёРє.
 #elif _M_IX86
 						WriteJump(HookInfo->OriginalAddress, HookInfo->HookAddress, JUMP_REL);
 #endif
@@ -2011,7 +2011,7 @@ THookStatus HookSpliceEx(_In_ PVOID Address, _In_ PVOID NewAddress, _Out_ PHookI
 
 						FlushInstructionCache(GetCurrentProcess(), HookInfo->HookAddress, HookInfo->BridgeSize);
 
-						if (!SuspendResumeThreadsEx(FALSE, &Threads)) // Размораживаем потоки.
+						if (!SuspendResumeThreadsEx(FALSE, &Threads)) // Р Р°Р·РјРѕСЂР°Р¶РёРІР°РµРј РїРѕС‚РѕРєРё.
 						{
 							Status = HookStatusThreadsError;
 						}
@@ -2189,7 +2189,7 @@ static BOOLEAN IsHotpatchSupport(_In_ PVOID Address, _In_ BYTE NeedSize)
 }
 
 /*
-	Только для x32
+	РўРѕР»СЊРєРѕ РґР»СЏ x32
 */
 static PVOID Hotpatch32(_In_ PVOID Address, _In_ PVOID NewAddress)
 {
@@ -2621,18 +2621,18 @@ PVOID HookImportEx(_In_ LPCSTR DllName, _In_ PVOID ProcAddress, _In_ PVOID NewAd
 
 					SIZE_T Ordinal = OriginalFirstThunk->u1.Ordinal;
 
-					if (FirstThunk->u1.Function == (SIZE_T)ProcAddress) // Поиск по адресу
+					if (FirstThunk->u1.Function == (SIZE_T)ProcAddress) // РџРѕРёСЃРє РїРѕ Р°РґСЂРµСЃСѓ
 					{
 						Function = FirstThunk->u1.Function;
 					}
-					else if (IMAGE_SNAP_BY_ORDINAL(Ordinal)) // ординалу
+					else if (IMAGE_SNAP_BY_ORDINAL(Ordinal)) // РѕСЂРґРёРЅР°Р»Сѓ
 					{
 						if (IMAGE_ORDINAL(Ordinal) == IMAGE_ORDINAL((SIZE_T)ProcAddress))
 						{
 							Function = FirstThunk->u1.Function;
 						}
 					}
-					else if (ImportByName) // имени.
+					else if (ImportByName) // РёРјРµРЅРё.
 					{
 						PIMAGE_IMPORT_BY_NAME ImportedName = (PIMAGE_IMPORT_BY_NAME)(OriginalFirstThunk->u1.AddressOfData + (SIZE_T)ModuleHandle);
 
@@ -2643,16 +2643,16 @@ PVOID HookImportEx(_In_ LPCSTR DllName, _In_ PVOID ProcAddress, _In_ PVOID NewAd
 					}
 					if (Function)
 					{
-						if (Function == (SIZE_T)NewAddress) // Если повторный перехват.
+						if (Function == (SIZE_T)NewAddress) // Р•СЃР»Рё РїРѕРІС‚РѕСЂРЅС‹Р№ РїРµСЂРµС…РІР°С‚.
 							return FALSE;
 
 						DWORD OldProtect = 0;
 
 						if (VirtualProtect(FirstThunk, sizeof(FirstThunk), PAGE_READWRITE, &OldProtect))
 						{
-							SIZE_T OldAddress = Function; // Оригинальный адрес.
+							SIZE_T OldAddress = Function; // РћСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ.
 
-							FirstThunk->u1.Function = (SIZE_T)NewAddress; // Патчим импорт.
+							FirstThunk->u1.Function = (SIZE_T)NewAddress; // РџР°С‚С‡РёРј РёРјРїРѕСЂС‚.
 
 							VirtualProtect(FirstThunk, sizeof(FirstThunk), OldProtect, &OldProtect);
 
@@ -2802,7 +2802,7 @@ static PHookInfo CreateEATBuffer(_In_ PVOID Origin)
 */
 PVOID HookExportA(_In_opt_ LPCSTR ModuleName, _In_ LPCSTR ProcedureName, _In_opt_ PVOID NewAddress)
 {
-	if (!IsSameHook(NewAddress)) // Защита от повторного перехвата.
+	if (!IsSameHook(NewAddress)) // Р—Р°С‰РёС‚Р° РѕС‚ РїРѕРІС‚РѕСЂРЅРѕРіРѕ РїРµСЂРµС…РІР°С‚Р°.
 	{
 		PVOID ModuleHandle = GetModuleHandleA(ModuleName);
 
@@ -2816,16 +2816,16 @@ PVOID HookExportA(_In_opt_ LPCSTR ModuleName, _In_ LPCSTR ProcedureName, _In_opt
 			{
 				LONG FunctionIndex = -1;
 
-				if (((SIZE_T)ProcedureName & 0xffff0000) == 0) // Поиск по ординалу
+				if (((SIZE_T)ProcedureName & 0xffff0000) == 0) // РџРѕРёСЃРє РїРѕ РѕСЂРґРёРЅР°Р»Сѓ
 				{
 					DWORD Ordinal = LOWORD(ProcedureName);
 
-					if ((Ordinal < ExportDirectory->Base) || (Ordinal >= (ExportDirectory->Base + ExportDirectory->NumberOfFunctions))) // Если ординал меньше базого значения или больше количества экспортируемых функций.
+					if ((Ordinal < ExportDirectory->Base) || (Ordinal >= (ExportDirectory->Base + ExportDirectory->NumberOfFunctions))) // Р•СЃР»Рё РѕСЂРґРёРЅР°Р» РјРµРЅСЊС€Рµ Р±Р°Р·РѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РёР»Рё Р±РѕР»СЊС€Рµ РєРѕР»РёС‡РµСЃС‚РІР° СЌРєСЃРїРѕСЂС‚РёСЂСѓРµРјС‹С… С„СѓРЅРєС†РёР№.
 						return NULL;
 					else
 						FunctionIndex = (Ordinal - ExportDirectory->Base);
 				}
-				else // По имени.
+				else // РџРѕ РёРјРµРЅРё.
 				{
 					PDWORD AddressOfNames = (PDWORD)((SIZE_T)ModuleHandle + ExportDirectory->AddressOfNames);
 
@@ -2849,20 +2849,20 @@ PVOID HookExportA(_In_opt_ LPCSTR ModuleName, _In_ LPCSTR ProcedureName, _In_opt
 
 					PDWORD pRelativeOffset = &AddressOfFunctions[FunctionIndex]; //
 
-					DWORD ProcedureOffset = *pRelativeOffset; // Смещение оригинальной функции.
+					DWORD ProcedureOffset = *pRelativeOffset; // РЎРјРµС‰РµРЅРёРµ РѕСЂРёРіРёРЅР°Р»СЊРЅРѕР№ С„СѓРЅРєС†РёРё.
 
 					if (!ProcedureOffset)
 						return NULL;
 
-					DWORD DeltaOffset = (DWORD)((SIZE_T)NewAddress - (SIZE_T)ModuleHandle); // Смещение к перехватчику.
+					DWORD DeltaOffset = (DWORD)((SIZE_T)NewAddress - (SIZE_T)ModuleHandle); // РЎРјРµС‰РµРЅРёРµ Рє РїРµСЂРµС…РІР°С‚С‡РёРєСѓ.
 
-					PVOID ProcedureAddress = (PVOID)(ProcedureOffset + (SIZE_T)ModuleHandle); // Оригинальный адрес функции..
+					PVOID ProcedureAddress = (PVOID)(ProcedureOffset + (SIZE_T)ModuleHandle); // РћСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ С„СѓРЅРєС†РёРё..
 #ifdef _M_X64
-					PHookInfo HookInfo = GetHookInfo(ProcedureAddress, NULL); // Если функция уже перехвачена
+					PHookInfo HookInfo = GetHookInfo(ProcedureAddress, NULL); // Р•СЃР»Рё С„СѓРЅРєС†РёСЏ СѓР¶Рµ РїРµСЂРµС…РІР°С‡РµРЅР°
 
 					if (HookInfo && HookInfo->IsHooked)
 					{
-						ProcedureAddress = HookInfo->OriginalAddress; // то вернём оригинальный адрес.
+						ProcedureAddress = HookInfo->OriginalAddress; // С‚Рѕ РІРµСЂРЅС‘Рј РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ.
 						//ProcedureAddress = (PVOID)(DeltaOffset + (SIZE_T)ModuleHandle); 
 					}
 #endif
@@ -2889,7 +2889,7 @@ PVOID HookExportA(_In_opt_ LPCSTR ModuleName, _In_ LPCSTR ProcedureName, _In_opt
 					if (!NewAddress)
 						return ProcedureAddress;
 #ifdef _M_X64
-					// Из-за специфики экспорта адрес переходника должен быть всегда больше, чем адрес библиотеки, но не более +2гб.
+					// РР·-Р·Р° СЃРїРµС†РёС„РёРєРё СЌРєСЃРїРѕСЂС‚Р° Р°РґСЂРµСЃ РїРµСЂРµС…РѕРґРЅРёРєР° РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІСЃРµРіРґР° Р±РѕР»СЊС€Рµ, С‡РµРј Р°РґСЂРµСЃ Р±РёР±Р»РёРѕС‚РµРєРё, РЅРѕ РЅРµ Р±РѕР»РµРµ +2РіР±.
 					if (IsGreaterThan2Gb(ModuleHandle, NewAddress))
 					{
 						PHookInfo ExportBridge = CreateEATBuffer(ModuleHandle);
@@ -2906,7 +2906,7 @@ PVOID HookExportA(_In_opt_ LPCSTR ModuleName, _In_ LPCSTR ProcedureName, _In_opt
 
 						ExportBridge->Type = HookTypeExport;
 
-						WriteJump(ExportBridge->BridgeCode, NewAddress, JUMP_ABS); // Прыжок в переходник.
+						WriteJump(ExportBridge->BridgeCode, NewAddress, JUMP_ABS); // РџСЂС‹Р¶РѕРє РІ РїРµСЂРµС…РѕРґРЅРёРє.
 
 						DeltaOffset = (DWORD)((SIZE_T)ExportBridge->BridgeCode - (SIZE_T)ModuleHandle);
 
@@ -2922,7 +2922,7 @@ PVOID HookExportA(_In_opt_ LPCSTR ModuleName, _In_ LPCSTR ProcedureName, _In_opt
 
 					if (VirtualProtect((PVOID)pRelativeOffset, sizeof(DWORD), PAGE_READWRITE, &OldProtect))
 					{
-						*(PDWORD)pRelativeOffset = DeltaOffset; // Патчим экспорт.
+						*(PDWORD)pRelativeOffset = DeltaOffset; // РџР°С‚С‡РёРј СЌРєСЃРїРѕСЂС‚.
 
 						VirtualProtect(pRelativeOffset, sizeof(DWORD), OldProtect, &OldProtect);
 
@@ -3177,7 +3177,7 @@ static int SetHardwareHookEx(_In_ HANDLE ThreadHandle, _In_ PVOID Address, _In_ 
 		int NewIndex = Index;
 
 		if (NewIndex == HBP_AUTO)
-			NewIndex = GetFreeDebugRegister(&Context); // Получаем индекс свободного регистра.
+			NewIndex = GetFreeDebugRegister(&Context); // РџРѕР»СѓС‡Р°РµРј РёРЅРґРµРєСЃ СЃРІРѕР±РѕРґРЅРѕРіРѕ СЂРµРіРёСЃС‚СЂР°.
 
 		switch (NewIndex)
 		{
@@ -3196,7 +3196,7 @@ static int SetHardwareHookEx(_In_ HANDLE ThreadHandle, _In_ PVOID Address, _In_ 
 
 		SetBits(&Context.Dr7, 16 + (NewIndex * 4), 2, Type);  //
 		SetBits(&Context.Dr7, 18 + (NewIndex * 4), 2, Size);  //
-		SetBits(&Context.Dr7, NewIndex * 2, 1, 1); // Включаем отладочный регистр.
+		SetBits(&Context.Dr7, NewIndex * 2, 1, 1); // Р’РєР»СЋС‡Р°РµРј РѕС‚Р»Р°РґРѕС‡РЅС‹Р№ СЂРµРіРёСЃС‚СЂ.
 
 		if (SetThreadContext(ThreadHandle, &Context))
 			return NewIndex;
@@ -3255,7 +3255,7 @@ static BOOLEAN RemoveHardwareHookEx(_In_ HANDLE ThreadHandle, _In_ PVOID Address
 
 		if (RegIndex > 0 || RegIndex <= 3)
 		{
-			SetBits(&Context.Dr7, RegIndex * 2, 1, 0); // Выключаем
+			SetBits(&Context.Dr7, RegIndex * 2, 1, 0); // Р’С‹РєР»СЋС‡Р°РµРј
 
 			if (SetThreadContext(ThreadHandle, &Context))
 				return TRUE;
@@ -3508,7 +3508,7 @@ static PHookVEH HookVectoredHandle(_In_ PVOID Address, _In_ PVOID NewAddress, _I
 			{
 				Context->StorageByte = *(PBYTE)Address;
 
-				*(PBYTE)Address = HLT; // Или INT3?
+				*(PBYTE)Address = HLT; // РР»Рё INT3?
 
 				VirtualProtect(Address, sizeof(BYTE), Context->OldProtect, &OldProtect);
 
@@ -3546,7 +3546,7 @@ PHookVEH HookVEH(_In_ PVOID Address, _In_ PVOID NewAddress, _In_ TVEHType Type)
 
 		if (Context)
 		{
-			g_VEHList.Ctx = Context; // Указатель на начало.
+			g_VEHList.Ctx = Context; // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РЅР°С‡Р°Р»Рѕ.
 
 			Context = &g_VEHList.Ctx[g_VEHList.Count];
 
@@ -3591,7 +3591,7 @@ BOOLEAN UnhookVEH(_In_ PVOID Address)
 
 		if (Context->Type == HookGuardPage)
 		{
-			//volatile BYTE GenerateExceptionRead = *Context->OriginalAddress; // Генерируем исключение, чтобы убрать флаг GUARD_PAGE 
+			//volatile BYTE GenerateExceptionRead = *Context->OriginalAddress; // Р“РµРЅРµСЂРёСЂСѓРµРј РёСЃРєР»СЋС‡РµРЅРёРµ, С‡С‚РѕР±С‹ СѓР±СЂР°С‚СЊ С„Р»Р°Рі GUARD_PAGE 
 
 			Result = VirtualProtect(Context->OriginalAddress, sizeof(BYTE), Context->OldProtect, &OldProtect);
 		}
@@ -3617,7 +3617,7 @@ BOOLEAN UnhookVEH(_In_ PVOID Address)
 */
 BOOLEAN FreeVEHHooks()
 {
-	for (int Count = g_VEHList.Count - 1; Count >= 0; Count--) // Освобождаем с конца.
+	for (int Count = g_VEHList.Count - 1; Count >= 0; Count--) // РћСЃРІРѕР±РѕР¶РґР°РµРј СЃ РєРѕРЅС†Р°.
 	{
 		PHookVEH Context = &g_VEHList.Ctx[Count];
 
@@ -3648,15 +3648,15 @@ PVOID PatchVFTable(_In_ PVOID VirtualTable, _In_ DWORD Index, _In_ PVOID NewMeth
 	if (!VirtualTable || !NewMethod)
 		return NULL;
 
-	PVOID Method = &((PClassInstance)VirtualTable)->VFTable->Func[Index]; // Смещение метода относительно начала таблицы.
+	PVOID Method = &((PClassInstance)VirtualTable)->VFTable->Func[Index]; // РЎРјРµС‰РµРЅРёРµ РјРµС‚РѕРґР° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РЅР°С‡Р°Р»Р° С‚Р°Р±Р»РёС†С‹.
 
 	DWORD OldProtect = 0;
 
 	if (VirtualProtect(Method, sizeof(Method), PAGE_READWRITE, &OldProtect))
 	{
-		PVOID Original = *(PVOID*)Method; // Адрес оригинального метода.
+		PVOID Original = *(PVOID*)Method; // РђРґСЂРµСЃ РѕСЂРёРіРёРЅР°Р»СЊРЅРѕРіРѕ РјРµС‚РѕРґР°.
 
-		*(PVOID*)Method = NewMethod; // Патчим таблицу.
+		*(PVOID*)Method = NewMethod; // РџР°С‚С‡РёРј С‚Р°Р±Р»РёС†Сѓ.
 
 		VirtualProtect(Method, sizeof(Method), OldProtect, &OldProtect);
 
@@ -3681,7 +3681,7 @@ PVOID HookVirtualMethod(_In_ PVOID VirtualTable, _In_ DWORD Index, _In_ PVOID Ne
 }
 
 /*
-    Рекомендуется.
+    Р РµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ.
 */
 PHookVEH HookVirtualMethodViaVEH(_In_ PVOID VirtualTable, _In_ DWORD Index, _In_ PVOID NewMethod)
 {
@@ -3727,7 +3727,7 @@ PVOID HookComInterface(_In_ IUnknown* Interface, _In_ DWORD Index, _In_ PVOID Ne
 	if (!Interface || !NewMethod) 
 		return NULL;
 
-	DWORD MethodIndex = Index + 3; // Пропускаем QueryInterface, AddRef, Release
+	DWORD MethodIndex = Index + 3; // РџСЂРѕРїСѓСЃРєР°РµРј QueryInterface, AddRef, Release
 
 	return HookVirtualMethod(Interface, MethodIndex, NewMethod);
 }
