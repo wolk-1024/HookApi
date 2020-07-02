@@ -371,8 +371,6 @@ bool TestClassHook()
 
 	ClassVar = TestClass->GetInt();
 
-	UnhookAllProc();
-
 	delete TestClass;
 
 	return (ClassVar == 3);
@@ -401,17 +399,17 @@ HRESULT STDMETHODCALLTYPE NewGetValue(_In_ IPropertyStore* This, __RPC__in REFPR
 
 void TestComInterfaceHook()
 {
-	HRESULT hResult = CoInitialize(NULL);
+	HRESULT hResult = CoInitialize(nullptr);
 
 	if (SUCCEEDED(hResult))
 	{
-		IMMDeviceEnumerator* Enumerator = NULL;
+		IMMDeviceEnumerator* Enumerator = nullptr;
 
-		hResult = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (void**)&Enumerator);
+		hResult = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (PVOID*)&Enumerator);
 
 		if (SUCCEEDED(hResult))
 		{
-			IMMDeviceCollection* DeviceCollection = NULL;
+			IMMDeviceCollection* DeviceCollection = nullptr;
 
 			hResult = Enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE | DEVICE_STATE_UNPLUGGED, &DeviceCollection);
 
@@ -427,9 +425,9 @@ void TestComInterfaceHook()
 				{
 					printf_s("Count devices: %d\n\n", DeviceCount);
 
-					IMMDevice* Device = NULL;
+					IMMDevice* Device = nullptr;
 
-					IPropertyStore* PropertyStore = NULL;
+					IPropertyStore* PropertyStore = nullptr;
 
 					for (UINT DeviceIndex = 0; DeviceIndex < DeviceCount; DeviceIndex++) // Цикл перехватов.
 					{
@@ -437,7 +435,7 @@ void TestComInterfaceHook()
 
 						if (SUCCEEDED(hResult))
 						{
-							LPWSTR StrId = NULL;
+							LPWSTR StrId = nullptr;
 
 							OldGetId = (pfnGetId)HookComInterface(Device, 2, &NewGetId);
 

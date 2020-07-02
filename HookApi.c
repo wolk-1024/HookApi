@@ -2050,15 +2050,14 @@ PVOID HookSplice(_In_ PVOID Address, _In_ PVOID NewAddress)
 
 	THookStatus Status = HookSpliceEx(Address, NewAddress, &Bridge);
 
-	if (Status == HookStatusSuccess)
-		return Bridge->BridgeCode;
-	else
+	if (Status != HookStatusSuccess)
 	{
 #ifdef _DEBUG
-		HookLog("Status: %s\n", HookStatusToString(Status));
+		HookLog("(0x%p) Status: %s\n", Address, HookStatusToString(Status));
 #endif
 		return NULL;
 	}
+	return Bridge->BridgeCode;
 }
 
 /*
@@ -2141,15 +2140,14 @@ BOOLEAN UnhookSplice(_In_ PVOID OriginalAddress)
 
 	THookStatus Status = UnhookSpliceEx(OriginalAddress);
 
-	if (Status == HookStatusSuccess)
-		return TRUE;
-	else
+	if (Status != HookStatusSuccess)
 	{
 #ifdef _DEBUG
-		HookLog("Status: %s\n", HookStatusToString(Status));
+		HookLog("(0x%p) Status: %s\n", OriginalAddress, HookStatusToString(Status));
 #endif
 		return FALSE;
 	}
+	return TRUE;
 }
 
 /*
@@ -2382,15 +2380,14 @@ PVOID HookHotpatch(_In_ PVOID Address, _In_ PVOID NewAddress)
 
 	THookStatus Status = HookHotpatchEx(Address, NewAddress, &Bridge);
 
-	if (Status == HookStatusSuccess)
-		return Bridge->BridgeCode;
-	else
+	if (Status != HookStatusSuccess)
 	{
 #ifdef _DEBUG
-		HookLog("Status: %s\n", HookStatusToString(Status));
+		HookLog("(0x%p) Status: %s\n", Address, HookStatusToString(Status));
 #endif
 		return NULL;
 	}
+	return Bridge->BridgeCode;
 }
 
 /*
@@ -2468,15 +2465,14 @@ BOOLEAN UnhookHotpatch(_In_ PVOID OriginalAddress)
 
 	THookStatus Status = UnhookHotpatchEx(OriginalAddress);
 
-	if (Status == HookStatusSuccess)
-		return TRUE;
-	else
+	if (Status != HookStatusSuccess)
 	{
 #ifdef _DEBUG
-		HookLog("Status: %s\n", HookStatusToString(Status));
+		HookLog("(0x%p) Status: %s\n", OriginalAddress, HookStatusToString(Status));
 #endif
 		return FALSE;
 	}
+	return TRUE;
 }
 
 /*
@@ -2489,8 +2485,12 @@ THookStatus HookProcEx(_In_ PVOID Address, _In_ PVOID NewAddress, _Out_ PHookInf
 	THookStatus Status = HookHotpatchEx(Address, NewAddress, Bridge);
 
 	if (Status != HookStatusSuccess)
+	{
+#ifdef _DEBUG
+		HookLog("(0x%p) Status: %s\n", Address, HookStatusToString(Status));
+#endif
 		Status = HookSpliceEx(Address, NewAddress, Bridge);
-
+	}
 	return Status;
 }
 
@@ -2505,15 +2505,14 @@ PVOID HookProc(_In_ PVOID Address, _In_ PVOID NewAddress)
 
 	THookStatus Status = HookProcEx(Address, NewAddress, &Bridge);
 
-	if (Status == HookStatusSuccess)
-		return Bridge->BridgeCode;
-	else
+	if (Status != HookStatusSuccess)
 	{
 #ifdef _DEBUG
-		HookLog("Status: %s\n", HookStatusToString(Status));
+		HookLog("(0x%p) Status: %s\n", Address, HookStatusToString(Status));
 #endif
 		return NULL;
 	}
+	return Bridge->BridgeCode;
 }
 
 /*
@@ -2548,15 +2547,14 @@ BOOLEAN UnhookProc(_In_ PVOID OriginalAddress)
 
 	THookStatus Status = UnhookProcEx(OriginalAddress);
 
-	if (Status == HookStatusSuccess)
-		return TRUE;
-	else
+	if (Status != HookStatusSuccess)
 	{
 #ifdef _DEBUG
-		HookLog("Status: %s\n", HookStatusToString(Status));
+		HookLog("(0x%p) Status: %s\n", OriginalAddress, HookStatusToString(Status));
 #endif
 		return FALSE;
 	}
+	return TRUE;
 }
 
 /*
@@ -3098,6 +3096,8 @@ static int GetTriggeredDebugRegister(_In_ PCONTEXT Context)
 */
 static int GetFreeCountRegisters(_In_ PCONTEXT Context)
 {
+	if (!Context) return -1;
+
 	int Result = -1;
 
 	for (int RegIndex = 0; RegIndex < 4; RegIndex++)
